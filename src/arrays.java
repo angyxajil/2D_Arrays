@@ -3,23 +3,33 @@ import java.util.Scanner;
 public class arrays {
 	public static void main (String[] args) {
 		
-		Scanner input = new Scanner(System.in);
+		/* 
+		 * initializes variables needed to create matrix columns and rows
+		 */
 		
 		int columns;
 		int rows;
 		int max = 10;
 		int min = 5;
-		// initializing variables 
+		
+		/*
+		 * lines 19-28 read and validate input for columns, input must be an integer between 5 and 10
+		 */
+		
+		Scanner input = new Scanner(System.in);
 		
 		System.out.print("Enter the number of columns. Must be an integer between 5 and 10: ");
 		columns = input.nextInt();
 		
 		while (columns > max || columns < min) {
-				System.out.println("Your input is invalid.");
+				System.out.println("Your input is invalid.");	// message to be outputted when input is invalid 
 				System.out.println("Enter the number of columns. Must be an integer between 5 and 10: ");
 				columns = input.nextInt();
 		}
-		//lines 14-20 take and validate input for columns
+		
+		/*
+		 * reads and validates input for rows, must be an integer between 5 and 10
+		 */
 		
 		System.out.println("Enter the number of rows. Must be an integer between 5 and 10: ");
 		rows = input.nextInt();
@@ -29,18 +39,26 @@ public class arrays {
 			System.out.println("Enter the number of rows. Must be an integer between 5 and 10: ");
 			rows = input.nextInt();
 		}
-		// takes and validates input for rows
+		
+		input.close(); // closing scanner so no more input is read
 
+		/*
+		 * Creates a matrix with number of columns and rows given by the user 
+		 */
 			int [][] Matrix = new int [rows][columns];
 			
 			System.out.println("Generating random int array with " + columns + " columns and " + rows + " rows");
 			System.out.println("-----------------------------------------");
 			
+		/*
+		 * 	Loop thats generates random integers between 100-900 into a matrix with the number of columns 
+		 *  and rows given by the user
+		 */
 			for (int i = 0; i < Matrix.length; i++) {
 				for (int j = 0; j < Matrix[i].length; j++) {
-					Matrix[i][j] = (int)((Math.random()* 900) + 100); // Generates array with random numbers in bounds
+					Matrix[i][j] = (int)((Math.random()* 900) + 100); 
 					
-					System.out.print(Matrix[i][j] + " "); // prints random int array
+					System.out.print(Matrix[i][j] + " "); // prints the matrix on console
 				}
 				
 				System.out.println(); // formats rows 
@@ -48,46 +66,77 @@ public class arrays {
 
 			System.out.println("-----------------------------------------");
 			System.out.println();
-			 // statements to call methods
+			
+			/*
+			 * Calls the rings method to print the sum and average of the integers in the matrix
+			 */
 			rings(Matrix);
 			System.out.println("Sum of all elements = " + getsum(Matrix));
 			System.out.println("Average of all array elements = " + getaverage(Matrix));
 			System.out.println();
+			
+			/*
+			 * Calls the metho outernums to print the sum and average of the integers in the 
+			 * border of the matrix only 
+			 */
 			outernums(Matrix);
 			System.out.println("Sum of outer ring elements = " + outersum(Matrix));
 			System.out.println("Average of outer ring elements = " + outeravg(Matrix));
 			
 	}
 	
-	public static void rings (int[][] Matrix) {
+	/*
+	 * Method to count the number of rings in the matrix
+	 */
+	public static void rings (int[][] rInput) {
 		
 		int rings;
 		
-		if (Matrix.length % 2 == 0) {
-			rings = (Matrix[0].length / 2);
+		//Divides the of given number of rows by 2 and checks the remainder 
+		if (rInput.length % 2 == 0) {
+			rings = (rInput[0].length / 2);
 			System.out.println("The number of rings in the array = " + rings);
 		}
-		else if ((Matrix.length / 2) != 0) {
-			rings = ((Matrix.length / 2) + 1);
+		
+		// if there is no remainder, it divides the number of rows by 2
+		
+		else if ((rInput.length % 2) != 0) {
+			rings = ((rInput.length / 2) + 1); 
 			System.out.println("The number of rings in the array = " + rings);
 		}
+		
+		/*
+		 *  if there is a remainder, the number of rings equals the number of rows divided by 2 + 1
+		 *  to count the middle ring.
+		 *   NOTE: keyword INT rounds down when the result is a decimal
+		 */
 	}
 	
+	/*
+	 * Method to add each ekement in the Matrix and produce the total sum 
+	 */
 	public static int getsum (int [][] Matrix) {
 		
+		//setting the sum to 0
 		int sum = 0;
 		
+		//loop to add elements into sum
 		for (int i = 0; i < Matrix.length; i++) { //traverses through arrays
 			for (int j = 0; j < Matrix[i].length; j++) { // traverses through columns in array indexes 
 				sum += Matrix[i][j]; // adds all elements in the matrix
 			}
 		}
 		
-		return sum; // returns variable sum with new value
+		//returns variable sum with new value
+		return sum;
 	}
 	
+	/*
+	 * Method to add each ekement in the Matrix and produce the total average 
+	 */
 	public static double getaverage (int [][] Matrix) {
 		
+		//initializing variables needed to compute the average
 		int elements = 0;
 		int sum = 0;
 		
@@ -98,9 +147,13 @@ public class arrays {
 			}
 		}
 		
-		return sum / elements;// returns new value as the average 
+		// returns new value as the average 
+		return sum / elements;
 	}
-	
+
+	 /*
+	  * Method to read, reverse, and count outer ring elements
+	  */
 	public static void outernums (int [][] Matrix) {
 		
 		int count = 0;
@@ -144,6 +197,9 @@ public class arrays {
 		System.out.println("Number of elements in outer ring = " + count); // display new value for count
 	}
 	
+	/*
+	 * Method to add outer rings elements only
+	 */
 	public static int outersum (int [][] Matrix) {
 		
 		int sum = 0;
@@ -162,14 +218,19 @@ public class arrays {
 			}
 		}
 		
-		return sum; // returns new value of sum
+		// returns new value of sum
+		return sum;
 	}
 	
+	/*
+	 * Method to take the average of the outer ring elements only
+	 */
 	public static double outeravg (int [][] Matrix) {
 		
 		int elements = 0;
 		int sum = 0;
 		
+		// loop to add element to sum and count num of elements if conditions are true
 		for (int i = 0; i < Matrix.length; i++) { // traverses through rows in matrix
 			for (int j = 0; j < Matrix[i].length; j++) { // traverses through columns in row index
 				if (i == 0) {
@@ -189,9 +250,10 @@ public class arrays {
 				elements++;
 				}
 			}
-		} // loop to add element to sum and count num of elements if conditions are true
+		} 
 		
-		return sum / elements; // returns average
+		// returns average
+		return sum / elements; 
 	}
 	
 }
